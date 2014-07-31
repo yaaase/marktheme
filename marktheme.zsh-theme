@@ -1,11 +1,3 @@
-# prompt style and colors based on Steve Losh's Prose theme:
-# http://github.com/sjl/oh-my-zsh/blob/master/themes/prose.zsh-theme
-#
-# vcs_info modifications from Bart Trojanowski's zsh prompt:
-# http://www.jukie.net/bart/blog/pimping-out-zsh-prompt
-#
-# git untracked files modification from Brian Carper:
-# http://briancarper.net/blog/570/git-info-in-your-zsh-prompt
 function virtualenv_info {
     [ $VIRTUAL_ENV ] && echo '('`basename $VIRTUAL_ENV`') '
 }
@@ -18,7 +10,6 @@ colors
 autoload -U add-zsh-hook
 autoload -Uz vcs_info
 
-#use extended color pallete if available
 if [[ $TERM = *256color* || $TERM = *rxvt* ]]; then
     turquoise="%F{81}"
     orange="%F{166}"
@@ -44,20 +35,9 @@ if which rbenv &> /dev/null; then
   RBENV=" $BRACKET_COLOR"["$RBENV_COLOR${$(rbenv version | sed -e 's/ (set.*$//' -e 's/^ruby-//')}$BRACKET_COLOR"]"%{$reset_color%}"
 fi
 
-# enable VCS systems you use
 zstyle ':vcs_info:*' enable git svn
 
-# check-for-changes can be really slow.
-# you should disable it, if you work with large repositories
 zstyle ':vcs_info:*:prompt:*' check-for-changes true
-
-# set formats
-# %b - branchname
-# %u - unstagedstr (see below)
-# %c - stagedstr (see below)
-# %a - action (e.g. rebase-i)
-# %R - repository path
-# %S - path in the repository
 PR_RST="%{${reset_color}%}"
 FMT_BRANCH=" (%{$turquoise%}%b%u%c${PR_RST})"
 FMT_ACTION=" performing a %{$limegreen%}%a${PR_RST}"
@@ -90,7 +70,6 @@ add-zsh-hook chpwd steeef_chpwd
 
 function steeef_precmd {
     if [[ -n "$PR_GIT_UPDATE" ]] ; then
-        # check for untracked files or updated submodules, since vcs_info doesn't
         if [[ ! -z $(git ls-files --other --exclude-standard 2> /dev/null) ]]; then
             PR_GIT_UPDATE=1
             FMT_BRANCH="${PM_RST} %{$white%}(%{$reset_color%}%{$turquoise%}%b%u%c%{$hotpink%}●${PR_RST}%{$white%})%{$reset_color%}"
