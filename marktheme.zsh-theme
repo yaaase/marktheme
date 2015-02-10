@@ -10,7 +10,7 @@ colors
 autoload -U add-zsh-hook
 autoload -Uz vcs_info
 
-if [[ $TERM = *256color* || $TERM = *rxvt* ]]; then
+if [[ $TERM = *255color* || $TERM = *rxvt* ]]; then
     turquoise="%F{81}"
     orange="%F{166}"
     purple="%F{135}"
